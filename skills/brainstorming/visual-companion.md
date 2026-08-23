@@ -90,6 +90,15 @@ scripts/start-server.sh --project-dir /path/to/project --open --foreground
 bash scripts/start-server.sh --project-dir /path/to/project --open --foreground
 ```
 
+**dsh:**
+```bash
+# Default mode works — the script backgrounds the server itself, like Claude
+# Code. For long runs, set `run_in_background: true` on the `bash` tool call:
+# it returns a job id immediately (collect output with `job_output`, stop
+# with `job_kill`) so the server survives across turns.
+scripts/start-server.sh --project-dir /path/to/project --open
+```
+
 **Other environments:** The server must keep running in the background across conversation turns. If your environment reaps detached processes, use `--foreground` and launch the command with your platform's background execution mechanism.
 
 If the URL is unreachable from your browser (common in remote/containerized setups), bind a non-loopback host:
