@@ -1,0 +1,14 @@
+# dsh-superpowers-primer bundle patch: mounts the primer plugin into the host
+# composition of a dsh profile. On `agent/session-start` it loads the
+# `using-superpowers` skill body from the skill registry and injects it as
+# model-facing context, mirroring the upstream Claude Code SessionStart hook.
+#
+# Install: `dsh plugin --profile <name> add link:<this package dir>`. The
+# `dsh plugin` command pnpm-installs the package into the profile and
+# reconciles the bundle patch into the profile's layer list.
+- insert:
+    - id: superpowers-primer
+      # Node-resolvable package name — must stay in sync with package.json
+      # `name`. Quoted because `@` is a reserved indicator in YAML and cannot
+      # open a plain scalar.
+      name: '@local/dsh-superpowers-primer'
