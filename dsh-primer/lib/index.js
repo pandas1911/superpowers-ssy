@@ -27,6 +27,7 @@
  * @module @local/dsh-superpowers-primer
  */
 import { createUserMessage } from '@deepseek-ai/dsh-llm';
+import { SessionSeq } from '@deepseek-ai/dsh-session';
 export const name = 'superpowers-primer';
 export const inject = ['skills'];
 const PRIMER_PLUGIN = 'superpowers-primer';
@@ -34,13 +35,15 @@ const PRIMER_PLUGIN = 'superpowers-primer';
  * Whether a primer injected by this plugin is still visible on the session's
  * model-visible surface — i.e. present in the durable log and not hidden by
  * compaction. Mirrors the skill catalog's `catalogHistory` scan: newest-last
- * over `agent.session.events`, filtered to visible `surface.nodes`.
+ * over `agent.session.eventAt`, filtered to visible `surface.nodes`.
  */
 function primerVisible(agent) {
     const visible = new Set(agent.session.surface.nodes);
-    const events = agent.session.events;
-    for (let index = events.length - 1; index >= 0; index -= 1) {
-        const event = events[index];
+    for (let index = agent.session.seq - 1; index >= 0; index -= 1) {
+        const event = agent.session.eventAt(SessionSeq(index));
+        if (event === undefined) {
+            throw new Error(`superpowers-primer cannot read seq ${String(index)} below the current Session length`);
+        }
         if (event.type !== 'user/message')
             continue;
         const source = event.data.source;

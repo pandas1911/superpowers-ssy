@@ -24,6 +24,7 @@
     "@deepseek-ai/cordis": "link:../../deepseek-harness-ssy/vendor/cordis",
     "@deepseek-ai/dsh-agent": "link:../../deepseek-harness-ssy/packages/core/agent",
     "@deepseek-ai/dsh-llm": "link:../../deepseek-harness-ssy/packages/llm/llm",
+    "@deepseek-ai/dsh-session": "link:../../deepseek-harness-ssy/packages/core/session",
     "@deepseek-ai/dsh-skill": "link:../../deepseek-harness-ssy/packages/skill/skill",
     "@types/node": "^24.13.3",
     "typescript": "^5.9.3"
