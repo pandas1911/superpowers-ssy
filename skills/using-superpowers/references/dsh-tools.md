@@ -10,9 +10,9 @@ tool may be absent from a given profile.
 | Capability | Tool name(s) |
 |---|---|
 | Shell | `bash` (or `pwsh` on Windows) |
-| Filesystem | `read`, `write`, `edit`, `str_replace_editor` |
+| Filesystem | `read`, `read_image`, `write`, `edit`, `str_replace_editor` |
 | Search | `grep`, `glob` |
-| Subagents | `subagent` (spawn), `send_message`, `interrupt_agent`, `list_agents`, `report` |
+| Subagents | `subagent` (spawn), `send_message`, `interrupt_agent`, `list_agents`, `list_subagent_models` (model-selection deployments) |
 | Todos | `todo_write` |
 | Web | `web_search`, `web_fetch` |
 | Skills | `skill` |
@@ -45,7 +45,12 @@ dispatch subagents. On dsh:
   Use `send_message` for fix rounds and follow-ups, exactly as you would
   resume an implementer.
 - **List** outstanding subagents with `list_agents`.
-- **Collect** a finished subagent's output with `report`.
+- **Collect** results without a dedicated tool: a foreground call (the
+  `one-shot` default, or `run_in_background: false`) waits and returns the
+  child's final text; a background `one-shot` run returns a job id collected
+  with `job_output` and stopped with `job_kill`; a `continuable` background
+  run returns a durable child id and the runtime delivers a settlement notice
+  when the child ends.
 
 Trust the tool descriptions for exact semantics (what context a fresh spawn
 receives, eviction behavior). The core discipline from
