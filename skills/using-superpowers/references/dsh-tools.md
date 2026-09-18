@@ -12,7 +12,7 @@ tool may be absent from a given profile.
 | Shell | `bash` (or `pwsh` on Windows) |
 | Filesystem | `read`, `read_image`, `write`, `edit`, `str_replace_editor` |
 | Search | `grep`, `glob` |
-| Subagents | `subagent` (spawn), `send_message`, `interrupt_agent`, `list_agents`, `list_subagent_models` (model-selection deployments) |
+| Subagents | `subagent` (spawn), `subagent_fork` (fixed-route variant), `send_message`, `interrupt_agent`, `list_agents`, `list_subagent_models` (model-selection deployments) |
 | Todos | `todo_write` |
 | Web | `web_search`, `web_fetch` |
 | Skills | `skill` |
@@ -21,6 +21,9 @@ tool may be absent from a given profile.
 | Background jobs | `job_output`, `job_list`, `job_kill` |
 | Plan mode | `exit_plan_mode` |
 | Ask user | `ask_user_question` |
+| PTC transport | `run_code` (0.1.6+; reserved registry transport under `mode: ptc`/`both`) |
+| Plugin management | `plugin_manager` (0.1.6+; profile-wide plugin/bundle operations) |
+| Opt-in extras | `terminal_open`/`_read`/`_send`/`_signal`/`_list`/`_close`, `schedule_create`/`_list`/`_delete`, `session_search`, `session_trace`, `session_event_*`, `lsp`, `present`, `list_mcp_resources`, `read_mcp_resource` |
 
 dsh has **no native worktree tool** — see below.
 
