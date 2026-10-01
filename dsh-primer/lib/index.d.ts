@@ -29,4 +29,11 @@
 import type { Context } from '@deepseek-ai/cordis';
 export declare const name = "superpowers-primer";
 export declare const inject: string[];
+declare module '@deepseek-ai/dsh-llm' {
+    interface MessageSourceMap {
+        'plugin:superpowers-primer': {
+            kind: 'plugin:superpowers-primer';
+        };
+    }
+}
 export declare function apply(ctx: Context): void;

@@ -32,6 +32,15 @@ export const name = 'superpowers-primer';
 export const inject = ['skills'];
 const PRIMER_PLUGIN = 'superpowers-primer';
 /**
+ * Session-format v4 producer-owned source kind for this plugin's injected
+ * messages. Format v4 rejects the retired `{ kind: 'plugin', plugin }` wrapper
+ * ("producer-owned source kind"), and the v3→v4 migration lifts that wrapper
+ * to `plugin:<name>` for non-released producers, so writing the same kind
+ * keeps new injections valid and idempotency-scannable across upgraded
+ * sessions.
+ */
+const PRIMER_SOURCE_KIND = `plugin:${PRIMER_PLUGIN}`;
+/**
  * Whether a primer injected by this plugin is still visible on the session's
  * model-visible surface — i.e. present in the durable log and not hidden by
  * compaction. Mirrors the skill catalog's `catalogHistory` scan: newest-last
@@ -47,7 +56,7 @@ function primerVisible(agent) {
         if (event.type !== 'user/message')
             continue;
         const source = event.data.source;
-        if (source.kind !== 'plugin' || source.plugin !== PRIMER_PLUGIN)
+        if (source.kind !== PRIMER_SOURCE_KIND)
             continue;
         if (visible.has(event.seq))
             return true;
@@ -64,7 +73,7 @@ export function apply(ctx) {
         // step's working set. Re-inject only when absent — first step, or after
         // compaction has hidden the durable primer from the visible surface.
         if (primerVisible(agent)
-            || decision.messages.some(message => message.source.kind === 'plugin' && message.source.plugin === PRIMER_PLUGIN))
+            || decision.messages.some(message => message.source.kind === PRIMER_SOURCE_KIND))
             return decision;
         signal.throwIfAborted();
         const skill = await ctx.skills.get('using-superpowers', {
@@ -82,7 +91,7 @@ export function apply(ctx) {
                     type: 'text',
                     text: `<EXTREMELY_IMPORTANT>\nYou have superpowers.\n\n${skill.content}\n</EXTREMELY_IMPORTANT>`,
                 }],
-            source: { kind: 'plugin', plugin: PRIMER_PLUGIN },
+            source: { kind: PRIMER_SOURCE_KIND },
         });
         return { kind: 'enter', messages: [...decision.messages, primer] };
     });
