@@ -15,7 +15,7 @@ tool may be absent from a given profile.
 | Subagents | `subagent` (spawn), `subagent_fork` (fixed-route variant), `send_message`, `interrupt_agent`, `list_agents`, `list_subagent_models` (model-selection deployments) |
 | Todos | `todo_write` |
 | Web | `web_search`, `web_fetch` |
-| Skills | `skill` |
+| Skills | `skill`, `load_workspace_dependencies` (0.2.0+; sdk bundle surface) |
 | Goals | `get_goal`, `create_goal`, `update_goal` |
 | Workflows | `workflow`, `ralph` |
 | Background jobs | `job_output`, `job_list`, `job_kill` |
